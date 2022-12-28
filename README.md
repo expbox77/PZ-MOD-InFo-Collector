@@ -1,27 +1,43 @@
 # Project_Zomboid_MOD_Crawler
 
-프로젝트 좀보이드 모드 모음집 링크를 통하여 자동으로 MOD ID, MAP NAME, MOD NAME, MAP FOLDER를 수집합니다.
+프로젝트 좀보이드 모드 모음집 링크를 통하여 자동으로 MOD ID, MOD NAME, MAP FOLDER를 수집합니다.
 
-# 사용방법
+수집된 정보는 DockerCompose를 위한 .env파일로 생성됩니다.
 
-0. !pip install bs4 로 beautifulsoup을 설치합니다.
+## 사용방법
 
-1. 좀보이드 모드를 모아둔 모음집을 Public으로 만듭니다.
+1. 가상환경 생성 및 실행
 
-2. 좀보이드 모드 모음집의 ID를 가져와 입력해줍니다.
+2. !pip install requirements.txt
 
-3. 크롤링 후 .ini파일에 넣어야할 값을 보여줍니다.
+3. python main.py -u URL -p PATH
 
-# TODO
+### 사용예시
 
-1. 가상환경 자동 생성 후 requirements.txt로 자동으로 설치되어서 실행까지 마칠 수 있도록
+```
+python main.py -u https://steamcommunity.com/sharedfiles/filedetails/?id=2904181752 -p ./
+```
 
-2. 주피터 노트북이 아닌 쉘 혹은 배치파일로 자동으로 모든 작업을 끝낼 수 있도록
+## 매개변수
 
-3. DockerCompose로 사용할 수 있게 .env 파일로 출력할 수 있도록
+`-u, --url:` 프로젝트 좀보이드 모드 모음집 링크
 
-4. 최종목표는 DockerFile을 만드는 것이지만 3번까지만 해도 만족할듯
+`-p, --env_path:` 저장될 .env의 경로
 
-# Reference
+## TODO
 
-사용된 도커 이미지: https://hub.docker.com/r/renegademaster/zomboid-dedicated-server
+- 가상환경 생성 후 requirements.txt로 모듈 설치, 파이썬 스크립트 실행까지 자동으로 마칠 수 있는 쉘 스크립트 제작하기.
+
+- 최종목표는 DockerFile 혹은 docker-compose를 사용하여 실행까지 이루어질 수 있도록 하는 것.
+
+## COMPLETE
+
+- requirements.txt 로 필요한 모듈 바로 설치 할 수 있음.
+
+- main.py에 파라미터 적용 완료.
+
+- 파이썬 스크립트로만 .env 파일 생성 가능.
+
+## Reference
+
+https://hub.docker.com/r/renegademaster/zomboid-dedicated-server
