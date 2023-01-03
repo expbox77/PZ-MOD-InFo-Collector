@@ -30,7 +30,9 @@ python main.py -u https://steamcommunity.com/sharedfiles/filedetails/?id=2904181
 
 - 최종목표는 DockerFile 혹은 docker-compose를 사용하여 실행까지 이루어질 수 있도록 하는 것.
 
-- (new) 크롤링이 아닌 steamworks api를 사용하여 DB에 넣고 crontab 비교하기
+- `(new, 작업중)` 크롤링이 아닌 steamworks api를 사용하여 크롤링 후 .env 파일 생성
+
+- `(new)` 크롤링 데이터를 DB에 넣고 지속석으로 가져와서 비교
 
 ## COMPLETE
 
