@@ -216,3 +216,4 @@ poetry.toml
 
 # Custom
 *test*
+*.db
