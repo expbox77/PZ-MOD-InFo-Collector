@@ -1,11 +1,7 @@
 import requests
 import json
-
-# url에서 id 추출
-def ext_id(workshop_url):
-    for _ in reversed(workshop_url.split('/')):
-        if 'id' in _:
-            return _[4:]
+from script.utils import ext_id
+from script.db import *
 
 def collect_workshop_id(collection_id):
     COLLECTION_API_HOST = 'https://api.steampowered.com/ISteamRemoteStorage/GetCollectionDetails/v1/'
@@ -28,10 +24,8 @@ def collect_workshop_id(collection_id):
 
     return workshop_ids
   
-def collect_workshop_contents(workshop_ids):
+def collect_workshop_contents(workshop_ids, db_name):
     WORKSHOP_API_HOST = 'https://api.steampowered.com/ISteamRemoteStorage/GetPublishedFileDetails/v1/'
-    description_list = []
-    uptime_list = []
 
     for _ in workshop_ids:
         body = {
@@ -40,17 +34,22 @@ def collect_workshop_contents(workshop_ids):
         }
         try:
             response = requests.post(WORKSHOP_API_HOST, data=body)
-            jsonObject = json.loads(response.text)
-            description_list.append(jsonObject.get('response').get('publishedfiledetails')[0].get('description'))
-            uptime_list.append(jsonObject.get('response').get('publishedfiledetails')[0].get('time_updated'))
+            jsonObject = json.loads(response.text.replace('\'', '\'\''))
+            json_title = jsonObject.get('response').get('publishedfiledetails')[0].get('title')
+            json_description = jsonObject.get('response').get('publishedfiledetails')[0].get('description')
+            json_time_updated = jsonObject.get('response').get('publishedfiledetails')[0].get('time_updated')
+            print(_)
+            insert_db(db_name, _, json_title, json_description, json_time_updated)
         except Exception as ex:
             print(ex)
             break
-    return description_list, uptime_list
 
 if __name__ == "__main__":
     # 호출 예시
     url = 'https://steamcommunity.com/sharedfiles/filedetails/?id=2854214800'
-    description_list, uptime_list = collect_workshop_contents(collect_workshop_id(ext_id(url)))
-    print(description_list)
-    print(uptime_list)
+    db_name = 'zb'
+    connect_db(db_name)
+    make_db(db_name)
+    collect_workshop_contents(collect_workshop_id(ext_id(url)), db_name)
+    # print(description_list)
+    # print(uptime_list)
